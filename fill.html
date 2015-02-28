@@ -135,16 +135,34 @@
 
 		}
 
-		function createNewField(container, name, value){ // todo: add button to delete field
+		function createNewField(container, name, value){
+			var fieldSubBlock = document.createElement("div");
+			var thisID = "fieldSubBlock" + container.id;
+			fieldSubBlock.id = thisID;
+
 			var text = document.createTextNode(name + " : ");
+
 			var input = document.createElement("input");
 			input.type = "text";
-			input.id = "field" + freshID();
+			input.id = "field" + thisID;
 			input.name = name;
 			input.value = value;
-			
-			container.appendChild(text);
-			container.appendChild(input);
+
+			var buttonDeleteField = document.createElement("button");
+			buttonDeleteField.innerHTML = "Delete the field";
+			buttonDeleteField.id = "buttonAddField" + thisID;
+			buttonDeleteField.onclick = function() { deleteField(this.id) };
+
+			container.appendChild(fieldSubBlock);
+			fieldSubBlock.appendChild(text);
+			fieldSubBlock.appendChild(input);
+			fieldSubBlock.appendChild(buttonDeleteField);
+		}
+
+		function deleteField(id){
+			var button = document.getElementById(id);
+			var subBlock = button.parentNode;
+			subBlock.parentNode.removeChild(subBlock);
 		}
 
 		
@@ -178,7 +196,7 @@
 		function deleteBlock(id) {
 			console.log("Delete " + id);
 			var button = document.getElementById(id);
-			var bulletPoint = button.parentNode
+			var bulletPoint = button.parentNode;
 			bulletPoint.parentNode.removeChild(bulletPoint);
 		}
 
