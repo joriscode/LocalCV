@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Title of the document</title>
+	</head>
+
+	
+
+	<body>
+		<input type="file" id="files" name="files[]" single /><br>
+		<button onclick="download('test.txt');">Save me</button><br>
+
+		<div id="inputList">
+	 		<ul id="listOfBlocks">
+
+	 		</ul>
+		</div>
+
+		<div>
+			<button onclick="createNewBlock();">Add block</button>
+			<!-- <input type="text" name="name" id="addFieldName" value="what">
+			<input type="text" name="value" id="addFieldValue" value="value"><br> -->
+		</div>
+
+	</body>
+
+	<script type="text/javascript">
+		function download(filename) {
+			var myarray = [];
+
+			var text = "";
+			// var text = "[";
+			var inputs = document.getElementById("inputList").getElementsByTagName('input');
+			console.log(inputs);
+			for (var i = 0, len = inputs.length; i < len; i++) {
+				var obj = new Object;
+				obj.name = inputs[i].name;
+				obj.value = inputs[i].value;
+				console.log(inputs[i]);
+				 myarray.push(obj);
+
+				// text += '{' + inputs[i].name + ': ' + inputs[i].value + '}, '; // should use JSON.stringify
+				// text += JSON.stringify(obj)
+			};
+			// text += "]";
+			text += JSON.stringify(myarray)
+			
+
+		    var pom = document.createElement('a');
+		    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		    pom.setAttribute('download', filename);
+		    pom.click();
+		}
+
+		function readFile (evt) {
+			// read the only file selected
+			var files = evt.target.files;
+			var file = files[0];           
+			var reader = new FileReader();
+			reader.onload = function() {
+				var text = this.result
+				var jsonObject = JSON.parse(text)
+				each(jsonObject)
+			}
+       		reader.readAsText(file)
+       		
+
+    	}
+
+    	document.getElementById('files').addEventListener('change', readFile, false);
+
+		function each(jsonObject){
+			for (var i = 0, len = jsonObject.length; i < len; i++) {
+    			createNewBlock(jsonObject[i].name, jsonObject[i].value);
+    			
+			}
+		}
+
+		var _selectIndex = 0;
+
+		function freshID(){
+			_selectIndex++;
+			return _selectIndex;
+		}
+
+		function addField(id){ // id of the block
+			var container = document.getElementById(id).childNodes;
+
+			// get the name and the value of the futur field$
+			
+			var xxx = "nameInput" + id;
+			console.log("ADDDD " + xxx);
+			console.log("ccc " + container);
+			var name = document.getElementById("nameInput" + id);
+			var value = document.getElementById("valueInput" + id);
+
+			// add new field at the block
+			var fields = document.getElementById("fields" + id);
+			createNewField(fields, name.value, value.value);
+
+			// reset
+			name.value = "what"; 
+			value.value = "value";
+		}
+
+		function createNewAddFieldSubBlock(id){ // id of the block
+			var container = document.getElementById(id)
+			
+			// subBlock
+			var subBlock = document.createElement("div");
+			subBlock.id = "addFieldSubBlock" + id;
+
+			// name input
+			var nameInput = document.createElement("input");
+			nameInput.type = "text";
+			nameInput.id = "nameInput" + id;
+			nameInput.value = "what";
+			
+			// value input
+			var valueInput = document.createElement("input");
+			valueInput.type = "text";
+			valueInput.id = "valueInput" + id;
+			valueInput.value = "value";
+
+			// add field button
+			var buttonAddField = document.createElement("button");
+			buttonAddField.innerHTML = "Add a field";
+			buttonAddField.id = "buttonAddField" + id;
+			buttonAddField.onclick = function() { addField(id) };
+
+			container.appendChild(nameInput);
+			container.appendChild(valueInput);
+			container.appendChild(buttonAddField);
+
+		}
+
+		// function createNewField(id){
+		// 	var container = document.getElementById("id");
+
+		// 	var nameInput = document.createElement("input");
+		// 	nameInput.type = "text";
+		// 	nameInput.id = "nameInput" + _selectIndex;
+		// 	nameInput.value = "what";
+			
+		// 	var valueInput = document.createElement("input");
+		// 	valueInput.type = "text";
+		// 	valueInput.id = "valueInput" + _selectIndex;
+		// 	valueInput.value = "value";
+
+		// 	var buttonAddField = document.createElement("button");
+		// 	buttonAddField.innerHTML = "deleteBlock";
+		// 	buttonAddField.id = "buttonAddField" + _selectIndex;
+		// 	buttonAddField.onclick = function() { addField(this.id) };
+
+		// 	container.appendChild(nameInput);
+		// 	container.appendChild(valueInput);
+		// 	container.appendChild(buttonAddField);
+
+		// }
+
+
+		function createNewField(container, name, value){
+			// var container = document.getElementById("id");
+
+			var text = document.createTextNode(name + " : ");
+			var input = document.createElement("input");
+			input.type = "text";
+			input.id = "field" + freshID();
+			input.name = name;
+			input.value = value;
+			
+			container.appendChild(text);
+			container.appendChild(input);
+		}
+
+		
+
+		function createNewBlock(){
+			// var container = document.getElementById("inputList");
+			var container = document.getElementById("listOfBlocks");
+
+			// the block
+			var bulletPoint = document.createElement("li");
+			thisID = "bulletPoint" + freshID();
+			bulletPoint.id = thisID;
+
+			// subBlock: fields in the block
+			var fields = document.createElement("div");
+			fields.id = "fields" + thisID;
+
+			// button to delete the block
+			var buttonDeleteBlock = document.createElement("button");
+			buttonDeleteBlock.innerHTML = "deleteBlock";
+			buttonDeleteBlock.id = "buttonDeleteBlock" +  thisID;
+			buttonDeleteBlock.onclick = function() { deleteBlock(this.id) };
+
+			// var text = document.createTextNode(name + ' :');
+			// var input = document.createElement("input");
+			// input.type = "text";
+			// input.name = name;
+			// input.value = value;
+
+			// var buttonAddField = document.createElement("button");
+			// buttonAddField.innerHTML = "addField";
+			// buttonAddField.id = "buttonAddField" + _selectIndex;
+			// buttonAddField.onclick = function(){addField};
+
+
+			container.appendChild(bulletPoint);
+			bulletPoint.appendChild(buttonDeleteBlock);
+			bulletPoint.appendChild(fields);
+
+			// bulletPoint.appendChild(text);
+			// bulletPoint.appendChild(input);
+			// fields.appendChild(buttonAddField);
+			createNewAddFieldSubBlock(thisID);
+			fields.appendChild(document.createElement("br"));
+		}
+
+		function deleteBlock(id) {
+			console.log("Delete " + id);
+			var button = document.getElementById(id);
+			var bulletPoint = button.parentNode
+			bulletPoint.parentNode.removeChild(bulletPoint);
+		}
+
+	</script>
+
+</html>
