@@ -164,16 +164,21 @@
 			var subBlock = button.parentNode;
 			subBlock.parentNode.removeChild(subBlock);
 		}
-
 		
 
-		function createNewBlock(){ // todo: name of the block
+		function createNewBlock(){
 			var container = document.getElementById("listOfBlocks");
 
 			// the block
 			var bulletPoint = document.createElement("li");
 			thisID = "bulletPoint" + freshID();
 			bulletPoint.id = thisID;
+
+			// title of the block
+			var titleText = document.createTextNode("Block name : ");
+			var titleInput = document.createElement("input");
+			titleInput.type = "text";
+			titleInput.value = "title";
 
 			// subBlock: fields in the block
 			var fields = document.createElement("div");
@@ -188,6 +193,10 @@
 			container.appendChild(bulletPoint);
 			bulletPoint.appendChild(buttonDeleteBlock);
 			bulletPoint.appendChild(fields);
+
+			fields.appendChild(titleText);
+			fields.appendChild(titleInput);
+			fields.appendChild(document.createElement("br"));
 
 			createNewAddFieldSubBlock(thisID);
 			fields.appendChild(document.createElement("br"));
