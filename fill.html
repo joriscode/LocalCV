@@ -135,34 +135,7 @@
 
 		}
 
-		// function createNewField(id){
-		// 	var container = document.getElementById("id");
-
-		// 	var nameInput = document.createElement("input");
-		// 	nameInput.type = "text";
-		// 	nameInput.id = "nameInput" + _selectIndex;
-		// 	nameInput.value = "what";
-			
-		// 	var valueInput = document.createElement("input");
-		// 	valueInput.type = "text";
-		// 	valueInput.id = "valueInput" + _selectIndex;
-		// 	valueInput.value = "value";
-
-		// 	var buttonAddField = document.createElement("button");
-		// 	buttonAddField.innerHTML = "deleteBlock";
-		// 	buttonAddField.id = "buttonAddField" + _selectIndex;
-		// 	buttonAddField.onclick = function() { addField(this.id) };
-
-		// 	container.appendChild(nameInput);
-		// 	container.appendChild(valueInput);
-		// 	container.appendChild(buttonAddField);
-
-		// }
-
-
-		function createNewField(container, name, value){
-			// var container = document.getElementById("id");
-
+		function createNewField(container, name, value){ // todo: add button to delete field
 			var text = document.createTextNode(name + " : ");
 			var input = document.createElement("input");
 			input.type = "text";
@@ -176,8 +149,7 @@
 
 		
 
-		function createNewBlock(){
-			// var container = document.getElementById("inputList");
+		function createNewBlock(){ // todo: name of the block
 			var container = document.getElementById("listOfBlocks");
 
 			// the block
@@ -195,25 +167,10 @@
 			buttonDeleteBlock.id = "buttonDeleteBlock" +  thisID;
 			buttonDeleteBlock.onclick = function() { deleteBlock(this.id) };
 
-			// var text = document.createTextNode(name + ' :');
-			// var input = document.createElement("input");
-			// input.type = "text";
-			// input.name = name;
-			// input.value = value;
-
-			// var buttonAddField = document.createElement("button");
-			// buttonAddField.innerHTML = "addField";
-			// buttonAddField.id = "buttonAddField" + _selectIndex;
-			// buttonAddField.onclick = function(){addField};
-
-
 			container.appendChild(bulletPoint);
 			bulletPoint.appendChild(buttonDeleteBlock);
 			bulletPoint.appendChild(fields);
 
-			// bulletPoint.appendChild(text);
-			// bulletPoint.appendChild(input);
-			// fields.appendChild(buttonAddField);
 			createNewAddFieldSubBlock(thisID);
 			fields.appendChild(document.createElement("br"));
 		}
