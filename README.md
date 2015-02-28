@@ -27,12 +27,17 @@
     Add Field subblock
   </li>
 ```
+
 ## Add Field subblock
+```HTML
   <div class=addfield>
     <button>Add field</button>
     <input ...for name of the field...>
     <input ...for value of the field...>
   </div>
+```
   
 ## Field
+```HTML
   <input ...> // name, value
+```
